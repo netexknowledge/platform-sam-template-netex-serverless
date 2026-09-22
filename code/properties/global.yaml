@@ -1,0 +1,2 @@
+properties:
+  # jdbc_connection_url: "jdbc:mysql://global-default.eu-central-1.rds.amazonaws.com:3306/main"

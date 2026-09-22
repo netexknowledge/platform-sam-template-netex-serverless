@@ -1,0 +1,5 @@
+properties:
+  # jdbc_connection_url: "jdbc:mysql://glue-testing-mysql.ceyulzdvpsfj.eu-central-1.rds.amazonaws.com:3306/main"
+  # subnet_id: "subnet-0bd9d4df7c2ae6ee6"
+  # security_group_id_list: ["sg-0628e991008a0b154"]
+  # secret_name: "rds!db-7661c4bb-7d8c-4c48-b1f4-58825f423fd0"
