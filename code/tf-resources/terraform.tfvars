@@ -336,10 +336,10 @@ apigateway = {
 #       secret_name            = "local.properties.secret_name"
 #     }
 #     "glueplatform02" = {
-#       jdbc_connection_url    = "jdbc:mysql://glue-testing-mysql.ceyulzdvpsfj.eu-central-1.rds.amazonaws.com:3306/main"
-#       subnet_id              = "subnet-0a5924ec07b23639c"
-#       security_group_id_list = ["sg-0628e991008a0b154"]
-#       secret_name            = "rds!db-7661c4bb-7d8c-4c48-b1f4-58825f423fd0"
+#       jdbc_connection_url    = "jdbc:mysql://<host>:3306/<db>"
+#       subnet_id              = "<subnet-id>"
+#       security_group_id_list = ["<security-group-id>"]
+#       secret_name            = "<secrets-manager-secret-name>"
 #     }
 #   }
 #   jobs = {

@@ -52,7 +52,7 @@ locals {
 }
 
 module "s3" {
-  source = "git::https://git.netexlearning.com/exposed/serverless-terraform-modules.git//aws-s3?ref=aws-s3@1"
+  source = "git::https://github.com/netexknowledge/platform-serverless-terraform-modules.git//aws-s3?ref=aws-s3@1"
 
   for_each = var.s3.buckets
 

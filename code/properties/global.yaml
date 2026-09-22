@@ -1,2 +1,2 @@
 properties:
-  # jdbc_connection_url: "jdbc:mysql://global-default.eu-central-1.rds.amazonaws.com:3306/main"
+  # jdbc_connection_url: "jdbc:mysql://<host>:3306/<db>"

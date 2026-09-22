@@ -26,7 +26,7 @@ locals {
 }
 
 module "api_gateway" {
-  source = "git::https://git.netexlearning.com/exposed/serverless-terraform-modules.git//aws-apigateway?ref=aws-apigateway@1"
+  source = "git::https://github.com/netexknowledge/platform-serverless-terraform-modules.git//aws-apigateway?ref=aws-apigateway@1"
 
   count = var.apigateway != {} ? 1 : 0
 
@@ -40,7 +40,7 @@ module "api_gateway" {
 }
 
 module "api_gateway_authorizer" {
-  source = "git::https://git.netexlearning.com/exposed/serverless-terraform-modules.git//aws-apigateway-authorizer?ref=aws-apigateway-authorizer@1"
+  source = "git::https://github.com/netexknowledge/platform-serverless-terraform-modules.git//aws-apigateway-authorizer?ref=aws-apigateway-authorizer@1"
 
   count = local.has_authorizer ? 1 : 0
 
@@ -56,7 +56,7 @@ module "api_gateway_authorizer" {
 }
 
 module "api_gateway_resources" {
-  source = "git::https://git.netexlearning.com/exposed/serverless-terraform-modules.git//aws-apigateway-resource?ref=aws-apigateway-resource@1"
+  source = "git::https://github.com/netexknowledge/platform-serverless-terraform-modules.git//aws-apigateway-resource?ref=aws-apigateway-resource@1"
 
   for_each = lookup(var.apigateway, "resources", {})
 
@@ -96,7 +96,7 @@ module "api_gateway_resources" {
 }
 
 module "api_gateway_deployment" {
-  source = "git::https://git.netexlearning.com/exposed/serverless-terraform-modules.git//aws-apigateway-deployment?ref=aws-apigateway-deployment@1"
+  source = "git::https://github.com/netexknowledge/platform-serverless-terraform-modules.git//aws-apigateway-deployment?ref=aws-apigateway-deployment@1"
 
   count = var.apigateway != {} ? 1 : 0
 

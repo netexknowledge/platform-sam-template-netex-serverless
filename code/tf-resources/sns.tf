@@ -41,7 +41,7 @@ locals {
 }
 
 module "sns" {
-  source = "git::https://git.netexlearning.com/exposed/serverless-terraform-modules.git//aws-sns?ref=aws-sns@1"
+  source = "git::https://github.com/netexknowledge/platform-serverless-terraform-modules.git//aws-sns?ref=aws-sns@1"
 
   for_each = var.sns.topics
 

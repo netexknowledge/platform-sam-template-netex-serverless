@@ -63,7 +63,7 @@ locals {
 }
 
 module "aws-glue-catalog" {
-  source = "git::https://git.netexlearning.com/exposed/serverless-terraform-modules.git//aws-glue-catalog?ref=aws-glue-catalog@1"
+  source = "git::https://github.com/netexknowledge/platform-serverless-terraform-modules.git//aws-glue-catalog?ref=aws-glue-catalog@1"
 
   for_each = lookup(lookup(var.glue, "catalog", {}), "databases", {}) != {} ? lookup(var.glue.catalog, "databases", {}) : {}
 
@@ -75,7 +75,7 @@ module "aws-glue-catalog" {
 }
 
 module "aws-glue-catalog-table" {
-  source = "git::https://git.netexlearning.com/exposed/serverless-terraform-modules.git//aws-glue-catalog-table?ref=aws-glue-catalog-table@1"
+  source = "git::https://github.com/netexknowledge/platform-serverless-terraform-modules.git//aws-glue-catalog-table?ref=aws-glue-catalog-table@1"
 
   for_each = lookup(lookup(var.glue, "catalog", {}), "tables", {}) != {} ? lookup(var.glue.catalog, "tables", {}) : {}
 
@@ -99,7 +99,7 @@ module "aws-glue-catalog-table" {
 }
 
 module "glue_connections" {
-  source = "git::https://git.netexlearning.com/exposed/serverless-terraform-modules.git//aws-glue-connection?ref=aws-glue-connection@1"
+  source = "git::https://github.com/netexknowledge/platform-serverless-terraform-modules.git//aws-glue-connection?ref=aws-glue-connection@1"
 
   for_each = lookup(var.glue, "connections", {})
 
@@ -126,7 +126,7 @@ module "glue_connections" {
 }
 
 module "glue_jobs" {
-  source = "git::https://git.netexlearning.com/exposed/serverless-terraform-modules.git//aws-glue-job?ref=aws-glue-job@1"
+  source = "git::https://github.com/netexknowledge/platform-serverless-terraform-modules.git//aws-glue-job?ref=aws-glue-job@1"
 
   for_each = lookup(var.glue, "jobs", {})
 
@@ -165,7 +165,7 @@ module "glue_jobs" {
 }
 
 module "glue_crawler" {
-  source = "git::https://git.netexlearning.com/exposed/serverless-terraform-modules.git//aws-glue-crawler?ref=aws-glue-crawler@1"
+  source = "git::https://github.com/netexknowledge/platform-serverless-terraform-modules.git//aws-glue-crawler?ref=aws-glue-crawler@1"
 
   for_each = lookup(var.glue, "crawlers", {})
 
@@ -225,7 +225,7 @@ resource "aws_security_group_rule" "glue_security_group_rule" {
 }
 
 module "glue_trigger" {
-  source = "git::https://git.netexlearning.com/exposed/serverless-terraform-modules.git//aws-glue-trigger?ref=aws-glue-trigger@1"
+  source = "git::https://github.com/netexknowledge/platform-serverless-terraform-modules.git//aws-glue-trigger?ref=aws-glue-trigger@1"
 
   for_each = local.triggers_list
 

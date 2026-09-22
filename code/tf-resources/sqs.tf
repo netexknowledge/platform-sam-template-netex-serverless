@@ -41,7 +41,7 @@ locals {
 }
 
 module "sqs" {
-  source = "git::https://git.netexlearning.com/exposed/serverless-terraform-modules.git//aws-sqs?ref=aws-sqs@1"
+  source = "git::https://github.com/netexknowledge/platform-serverless-terraform-modules.git//aws-sqs?ref=aws-sqs@1"
 
   for_each = var.sqs.queues
 

@@ -178,7 +178,7 @@ locals {
 }
 
 module "lambda_functions" {
-  source = "git::https://git.netexlearning.com/exposed/serverless-terraform-modules.git//aws-lambda?ref=aws-lambda@1"
+  source = "git::https://github.com/netexknowledge/platform-serverless-terraform-modules.git//aws-lambda?ref=aws-lambda@1"
 
   for_each = var.lambdas
 

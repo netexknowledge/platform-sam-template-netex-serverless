@@ -1,5 +1,5 @@
 module "dynamodb" {
-  source = "git::https://git.netexlearning.com/exposed/serverless-terraform-modules.git//aws-dynamodb?ref=aws-dynamodb@1"
+  source = "git::https://github.com/netexknowledge/platform-serverless-terraform-modules.git//aws-dynamodb?ref=aws-dynamodb@1"
 
   for_each = var.dynamodb.tables
 

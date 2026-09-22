@@ -51,14 +51,14 @@ To interact with AWS services, you need to set up your AWS credentials. You can 
 To get started with your serverless application using [AWS SAM(Serverless Application Model)](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-specification.html), you can initialize a new SAM project using a custom template from the Netex organization. Here's the command you'll need:
 
 ```bash
-sam init -n "project-name" --location "https://git.netexlearning.com/exposed/sam-template-netex-serverless.git"
+sam init -n "project-name" --location "https://github.com/netexknowledge/platform-sam-template-netex-serverless.git"
 ```
 
 Breakdown of the Command:
 
 - `sam init`: This is the command used to initialize a new SAM application.
 - `-n "project-name"`: The -n parameter specifies the name of your new SAM application. In this case, the application will be named serverless. You can replace serverless with your preferred project name.
-- `--location`: This parameter tells SAM where to find the application template. "https://git.netexlearning.com/exposed/sam-template-netex-serverless.git": This is the URL of the custom SAM application template provided by Netex. This template will be used as the starting point for your application.
+- `--location`: This parameter tells SAM where to find the application template. "https://github.com/netexknowledge/platform-sam-template-netex-serverless.git": This is the URL of the custom SAM application template provided by Netex. This template will be used as the starting point for your application.
 
 Then you can to use the provided bash scripts (`deploy.sh` and `destroy.sh`), you need to be positioned in the `tf-resources` directory. Navigate to this directory using the following command:
 
