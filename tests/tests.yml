@@ -1,0 +1,7 @@
+# Tests template platform-sam-template-netex-serverless
+#unit-test:
+# - /path/to/script/in/repo.sh
+# - another-comand.sh
+#integration-tests:
+# - /path/to/script/in/repo.sh
+# - another-comand.sh

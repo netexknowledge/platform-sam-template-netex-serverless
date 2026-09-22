@@ -1,0 +1,29 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: "platform-sam-template-netex-serverless"
+  description: "template sam pública"
+  owner: "platform"
+  tags: 
+    - "terrasam-state"
+    - "lang:terrasam"
+  links:
+    - url: https://wiki.netexlearning.com/pages/viewpage.action?pageId=41653528
+      title: "Añadir links al componente"
+      icon: dashboard
+  annotations:
+    github.com/project-slug: netexknowledge/platform-sam-template-netex-serverless
+    backstage.io/techdocs-ref: dir:.
+    backstage.io/kubernetes-id: '["k8s-common-des","k8s-common-pre","k8s-common-pro","k8s-common-sandbox"]'
+    backstage.io/kubernetes-namespace: platform-default
+    backstage.io/kubernetes-label-selector: 'tags.datadoghq.com/service=platform-sam-template-netex-serverless'
+    datadoghq.com/dashboard-url: "https://p.datadoghq.eu/sb/bp8piidg4pqi13x4-4cccaaef244d16581c3734a3465332be?tpl_var_product=platform"
+spec:
+  type: service
+  lifecycle: production
+  system: "platform"
+  owner: "platform"
+  consumesApis: []
+  providesApis: []
+  dependsOn: []
+---

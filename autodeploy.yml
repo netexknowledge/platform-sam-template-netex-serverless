@@ -1,0 +1,5 @@
+autodeploy: #por entorno los posibles valores son always,manual,never 
+  des: always # aplica a la rama develop
+  pre: always # aplica a la rama release
+  sandbox: never  # no aplica a ninguna rama actualmente, sandbox es el nombre del entorno con volcados de datos desde producción
+  pro: manual # aplica a la rama main

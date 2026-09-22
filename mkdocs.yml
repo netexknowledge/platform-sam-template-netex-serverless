@@ -1,0 +1,7 @@
+site_name: "Documentación"
+site_description: template sam pública
+plugins:
+  - techdocs-core
+nav:
+  - Introduction: README.md
+
