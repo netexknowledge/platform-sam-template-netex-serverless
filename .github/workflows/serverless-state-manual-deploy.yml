@@ -1,0 +1,30 @@
+name: serverless-state-manual-deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Entorno destino"
+        required: true
+        type: choice
+        options:
+          - pre
+          - pro
+          - sandbox
+      region:
+        description: "Región AWS. Vacío = eu-west-1; eu-central-1 en DR"
+        required: false
+        type: string
+        default: "eu-west-1"
+
+permissions: write-all
+
+jobs:
+    serverless-state-manual-deploy:
+        name: serverless-state-manual-deploy
+        uses: netexknowledge/.github/.github/workflows/serverless-state-manual-deploy-reusable.yml@serverless-state-manual-deploy-reusable#v1
+        with:
+          environment: ${{ inputs.environment }}
+          region: ${{ inputs.region }}
+        # nosemgrep: yaml.github-actions.security.secrets-inherit.secrets-inherit -- necesario: el token de GitHub App del equipo se resuelve en runtime por nombre dinamico (secrets[env.APP_ID_NAME]), no se puede declarar como secreto individual
+        secrets: inherit

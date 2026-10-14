@@ -1,0 +1,15 @@
+name: serverless-state-sync-template
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+    serverless-state-sync-template:
+        name: serverless-state-sync-template
+        uses: netexknowledge/.github/.github/workflows/serverless-state-sync-template-reusable.yml@serverless-state-sync-template-reusable#v1
+        # nosemgrep: yaml.github-actions.security.secrets-inherit.secrets-inherit -- necesario: el token de GitHub App del equipo se resuelve en runtime por nombre dinamico (secrets[env.APP_ID_NAME]), no se puede declarar como secreto individual
+        secrets: inherit

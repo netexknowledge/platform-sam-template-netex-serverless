@@ -1,0 +1,14 @@
+name: serverless-state-apply
+
+on:
+  release:
+    types: [released]
+
+permissions: write-all
+
+jobs:
+    serverless-state-apply:
+        name: serverless-state-apply
+        uses: netexknowledge/.github/.github/workflows/serverless-state-apply-reusable.yml@serverless-state-apply-reusable#v1
+        # nosemgrep: yaml.github-actions.security.secrets-inherit.secrets-inherit -- necesario: el token de GitHub App del equipo se resuelve en runtime por nombre dinamico (secrets[env.APP_ID_NAME]), no se puede declarar como secreto individual
+        secrets: inherit

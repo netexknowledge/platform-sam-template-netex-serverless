@@ -1,4 +1,4 @@
-name: terraform-pr-verify
+name: pr-verify
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
       - 'code/**/*.tf'
       - 'code/**/*.tf.json'
 
-# Igual o mas permisivo que el permissions: declarado en terraform-pr-verify-reusable.yml.
+# Igual o más permisivo que el permissions: declarado en terraform-pr-verify-reusable.yml.
 permissions:
   contents: read
   pull-requests: write
