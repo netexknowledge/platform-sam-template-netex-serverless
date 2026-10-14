@@ -26,7 +26,7 @@ locals {
 }
 
 module "api_gateway" {
-  source = "git::https://github.com/netexknowledge/platform-serverless-terraform-modules.git//aws-apigateway?ref=aws-apigateway@1"
+  source = "git::https://github.com/netexknowledge/platform-serverless-terraform-modules.git//aws-apigateway?ref=aws-apigateway@2"
 
   count = var.apigateway != {} ? 1 : 0
 
