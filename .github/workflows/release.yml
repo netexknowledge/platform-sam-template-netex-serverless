@@ -4,22 +4,12 @@ on:
   push:
     branches:
       - main
-      - develop
-      - release
-      - release/*
   workflow_dispatch:
-    inputs:
-      prerelease:
-        description: "Force build as pre-release"
-        required: false
-        default: false
-        type: boolean
 
 permissions: write-all
 
 jobs:
   release:
-    uses: netexknowledge/.github/.github/workflows/release-reusable.yml@release-reusable#v1
-    with:
-      prerelease: ${{ github.event.inputs.prerelease || 'false' }}
+    uses: netexknowledge/.github/.github/workflows/release-reusable.yml@release-reusable#v2
+    # nosemgrep: yaml.github-actions.security.secrets-inherit.secrets-inherit -- necesario: release-reusable resuelve en runtime el token de la GitHub App del equipo por nombre dinamico (secrets[env.APP_ID_NAME]), que no se puede declarar como secreto individual
     secrets: inherit

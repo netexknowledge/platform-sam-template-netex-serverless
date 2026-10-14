@@ -1,0 +1,21 @@
+name: terraform-pr-verify
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'code/**/*.tf'
+      - 'code/**/*.tf.json'
+
+# Igual o mas permisivo que el permissions: declarado en terraform-pr-verify-reusable.yml.
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  terraform-pr-verify:
+    uses: netexknowledge/.github/.github/workflows/terraform-pr-verify-reusable.yml@terraform-pr-verify-reusable#v1
+    # nosemgrep: yaml.github-actions.security.secrets-inherit.secrets-inherit -- necesario: el token de GitHub App del equipo se resuelve en runtime por nombre dinamico (secrets[env.APP_ID_NAME]), no se puede declarar como secreto individual
+    secrets: inherit
+    with:
+      working-directory: code
