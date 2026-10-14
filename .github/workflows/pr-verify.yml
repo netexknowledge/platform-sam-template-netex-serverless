@@ -1,15 +1,24 @@
 name: PR-VERIFY
 
 on:
-    pull_request:
-        branches-ignore:
-            - 'release/**'
+  pull_request:
+    # edited incluido para que reapuntar la base de una PR vuelva a lanzar la
+    # verificacion. Sin el, cambiar la base emite un evento "edited" que no
+    # esta entre los tipos por defecto (opened, synchronize, reopened) y el
+    # check se queda sin ejecutar: la PR parece verificada y no lo esta.
+    types: [opened, synchronize, reopened, edited]
+    branches:
+      - main
 
 permissions: write-all
 
-
 jobs:
-    code-lint:
-        name: PR-VERIFY
-        uses: netexknowledge/.github/.github/workflows/pr-verify-reusable.yml@pr-verify-reusable#v1
-        secrets: inherit
+  code-lint:
+    name: PR-VERIFY
+    # "edited" tambien salta al editar titulo o descripcion, y estos jobs no
+    # son gratis. Por eso, de los edited solo pasan los que de verdad cambian
+    # la base; github.event.changes.base solo viene informado en ese caso.
+    if: ${{ github.event.action != 'edited' || github.event.changes.base.ref.from != '' }}
+    uses: netexknowledge/.github/.github/workflows/pr-verify-reusable.yml@pr-verify-reusable#v1
+    # nosemgrep: yaml.github-actions.security.secrets-inherit.secrets-inherit -- necesario: pr-verify-reusable resuelve en runtime el token de la GitHub App del equipo por nombre dinamico (secrets[env.APP_ID_NAME]), que no se puede declarar como secreto individual
+    secrets: inherit
