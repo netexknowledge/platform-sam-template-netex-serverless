@@ -1,7 +1,27 @@
 locals {
   tfvars_content = file("${path.module}/terraform.tfvars")
 
-  has_authorizer = can(regex("\"?authorizer\"?\\s*=\\s*true", local.tfvars_content)) ? true : lookup(var.apigateway, "authorizer", null) != null ? true : false
+  # Un bloque apigateway sin nombre no describe ninguna API: es un hueco.
+  #
+  # El guarda de antes comparaba la variable entera contra {}, asi que un bloque
+  # "vaciado por dentro" (name = "", resources = {}, authorizer = {}) seguia
+  # contando como configurado. Terraform mantenia viva la API, su deployment, su
+  # log group, su rol IAM y el authorizer, sin una sola lambda detras: es
+  # exactamente lo que paso en content-ai-direct-chatbot, -http y
+  # content-ai-xapi-question-generator.
+  #
+  # Vaciar por dentro es el gesto que apaga todos los demas bloques del repo
+  # -lambdas, sqs, sns, dynamodb, s3 y glue van por for_each sobre su mapa
+  # interno-, asi que aqui tiene que apagar igual. Las dos formas de apagarlo son
+  # equivalentes: "apigateway = {}" y un bloque con name = "".
+  apigateway_enabled = trimspace(lookup(var.apigateway, "name", "")) != ""
+
+  # Sin API no hay authorizer que colgar de ella. Sin esta condicion, un bloque
+  # vaciado dejaba has_authorizer a true (authorizer = {} no es null) y el modulo
+  # intentaba leer module.api_gateway[0], que ya no existe.
+  has_authorizer = local.apigateway_enabled && (
+    can(regex("\"?authorizer\"?\\s*=\\s*true", local.tfvars_content)) || lookup(var.apigateway, "authorizer", null) != null
+  )
 
   single_resources = lookup(var.apigateway, "type", null) == "REST" ? [
     for path, path_details in lookup(var.apigateway, "resources", {}) :
@@ -28,7 +48,7 @@ locals {
 module "api_gateway" {
   source = "git::https://github.com/netexknowledge/platform-serverless-terraform-modules.git//aws-apigateway?ref=aws-apigateway@2"
 
-  count = var.apigateway != {} ? 1 : 0
+  count = local.apigateway_enabled ? 1 : 0
 
   type                         = var.apigateway.type
   name                         = var.apigateway.name
@@ -58,7 +78,10 @@ module "api_gateway_authorizer" {
 module "api_gateway_resources" {
   source = "git::https://github.com/netexknowledge/platform-serverless-terraform-modules.git//aws-apigateway-resource?ref=aws-apigateway-resource@1"
 
-  for_each = lookup(var.apigateway, "resources", {})
+  # Gateado tambien por apigateway_enabled: si no hay API, no hay donde colgar los
+  # recursos, y sin esto el for_each seguiria iterando y reventaria al leer
+  # module.api_gateway[0].
+  for_each = local.apigateway_enabled ? lookup(var.apigateway, "resources", {}) : {}
 
   type = var.apigateway.type
   name = each.key
@@ -98,7 +121,7 @@ module "api_gateway_resources" {
 module "api_gateway_deployment" {
   source = "git::https://github.com/netexknowledge/platform-serverless-terraform-modules.git//aws-apigateway-deployment?ref=aws-apigateway-deployment@1"
 
-  count = var.apigateway != {} ? 1 : 0
+  count = local.apigateway_enabled ? 1 : 0
 
   type                     = var.apigateway.type
   api_id                   = module.api_gateway[0].id
