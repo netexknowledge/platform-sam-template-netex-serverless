@@ -52,15 +52,24 @@ locals {
 }
 
 module "s3" {
+  # force_destroy entra en aws-s3@1.1.1. La tag flotante aws-s3@1 ya apunta ahi
+  # (la mueve sola el paso "Mover las tags flotantes de major" de version.yml en
+  # el repo de modulos), asi que este bloque resuelve sin tocar nada mas.
   source = "git::https://github.com/netexknowledge/platform-serverless-terraform-modules.git//aws-s3?ref=aws-s3@1"
 
   for_each = var.s3.buckets
 
-  bucket          = each.key
-  public_access   = lookup(each.value, "public_access", false)
-  acl             = lookup(each.value, "acl", "private")
-  versioning      = lookup(each.value, "versioning", false)
+  bucket        = each.key
+  public_access = lookup(each.value, "public_access", false)
+  acl           = lookup(each.value, "acl", "private")
+  versioning    = lookup(each.value, "versioning", false)
+  # prevent_destroy ya no es decorativo: desde aws-s3@1.1.1 mete un Deny de
+  # s3:DeleteBucket en la politica del bucket. force_destroy es lo contrario, y
+  # es lo que hay que poner a true -junto con vaciar el bloque- para dar de baja
+  # un bucket con contenido, porque el versionado esta siempre activo y AWS
+  # cuenta las versiones viejas como contenido.
   prevent_destroy = lookup(each.value, "prevent_destroy", false)
+  force_destroy   = lookup(each.value, "force_destroy", false)
   lifecycle_rules = lookup(each.value, "lifecycle_rules", [])
   cors_rules      = lookup(each.value, "cors_rules", [])
 
