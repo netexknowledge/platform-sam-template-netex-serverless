@@ -161,3 +161,8 @@ variable "vpc_subnet_ids" {
   type        = list(string)
   default     = null
 }
+variable "pipelinedrregion" {
+  description = "Region de recuperacion ante desastres que anuncia la pipeline de platform-ops. Vacio o nulo = no se replica nada."
+  type        = string
+  default     = null
+}

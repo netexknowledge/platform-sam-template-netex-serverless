@@ -2,6 +2,12 @@ locals {
   tags       = (var.pipelinetags == null) ? merge(var.tags, var.temporaltags) : merge(merge(var.tags, var.temporaltags), var.pipelinetags)
   aws_region = (var.pipelineawsregion == null) ? var.aws_region : var.pipelineawsregion
 
+  # Region de DR que anuncia la pipeline, si la hay. Vacio significa "no
+  # replicar": es el estado de hoy y tiene que seguir siendo el que no cambia
+  # nada. La pipeline no la anuncia cuando el propio despliegue va a la region
+  # de DR, para que una tabla no intente replicarse sobre si misma.
+  dr_regions = (var.pipelinedrregion == null || var.pipelinedrregion == "") ? [] : [var.pipelinedrregion]
+
   global_properties_file_path      = "${path.module}/../properties/global.yaml"
   environment_properties_file_path = "${path.module}/../properties/${local.tags.environment}.yaml"
 
