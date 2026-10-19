@@ -11,5 +11,12 @@ module "dynamodb" {
   hash_key       = each.value.hash_key
   autoscaling    = lookup(each.value, "autoscaling", {})
 
+  # Por defecto, toda tabla se replica en la region de DR que anuncie la
+  # pipeline. Si platform-ops no anuncia ninguna -hoy, mientras no exista el
+  # bloque "dr" en su config.json- la lista sale vacia y no cambia nada. Una
+  # tabla concreta puede quedarse fuera poniendo replica_regions = [] en su
+  # entrada del tfvars.
+  replica_regions = lookup(each.value, "replica_regions", local.dr_regions)
+
   tags = local.tags
 }
