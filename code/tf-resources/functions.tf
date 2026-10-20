@@ -188,10 +188,11 @@ module "lambda_functions" {
     each.value,
     { environment_variables = local.environment_variables[each.key] }
   )
-  allowed_triggers  = local.lambdas_allowed_triggers[each.key]
-  policy_statements = local.lambdas_policy_statements[each.key]
-  add_secrets_layer = lookup(local.enable_secrets_layers, each.key, false)
-  add_datadog_layer = var.pipelineobservability ? true : lookup(each.value, "add_datadog_layer", false)
+  allowed_triggers        = local.lambdas_allowed_triggers[each.key]
+  policy_statements       = local.lambdas_policy_statements[each.key]
+  add_secrets_layer       = lookup(local.enable_secrets_layers, each.key, false)
+  add_datadog_layer       = var.pipelineobservability ? true : lookup(each.value, "add_datadog_layer", false)
+  datadog_wrapper_handler = lookup(each.value, "datadog_wrapper_handler", false)
 
   vpc_security_group_ids = local.vpc_security_group_ids
   vpc_subnet_ids         = local.vpc_subnet_ids
