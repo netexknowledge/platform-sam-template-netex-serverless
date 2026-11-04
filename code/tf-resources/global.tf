@@ -46,6 +46,23 @@ locals {
 
   custom_domain_name = (var.pipelinecustomdomainname == null) ? var.custom_domain_name : var.pipelinecustomdomainname
 
-  vpc_security_group_ids = (var.pipelinevpcsecuritygroupids == null) ? var.vpc_security_group_ids : var.pipelinevpcsecuritygroupids
-  vpc_subnet_ids         = (var.pipelinevpcsubnetids == null) ? var.vpc_subnet_ids : var.pipelinevpcsubnetids
+  # Orden de preferencia: lo que diga la pipeline, luego lo que diga el tfvars
+  # del repo, y como ultimo recurso lo que se descubra en AWS por convencion de
+  # nombres. Ese ultimo escalon es el que hace posible desplegar en la region de
+  # DR sin mantener a mano una lista de subnets de otra region: en eu-central-1
+  # los identificadores ya cambiaron una vez entre octubre y noviembre de 2026.
+  # No se usa coalesce: trata una lista vacia como valor valido y se quedaria
+  # con ella, desactivando el descubrimiento sin avisar. Hoy ningun repo pone
+  # estas variables -las dos vienen a null- pero el dia que alguien escriba
+  # vpc_subnet_ids = [] no debe quedarse sin red en silencio.
+  vpc_security_group_ids = (
+    try(length(var.pipelinevpcsecuritygroupids), 0) > 0 ? var.pipelinevpcsecuritygroupids :
+    try(length(var.vpc_security_group_ids), 0) > 0 ? var.vpc_security_group_ids :
+    try(data.aws_security_groups.privado[0].ids, [])
+  )
+  vpc_subnet_ids = (
+    try(length(var.pipelinevpcsubnetids), 0) > 0 ? var.pipelinevpcsubnetids :
+    try(length(var.vpc_subnet_ids), 0) > 0 ? var.vpc_subnet_ids :
+    try(data.aws_subnets.privadas[0].ids, [])
+  )
 }
