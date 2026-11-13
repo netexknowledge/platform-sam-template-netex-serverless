@@ -20,13 +20,13 @@ jobs:
         # Por eso, de los edited solo pasan los que de verdad cambian la base;
         # github.event.changes.base solo viene informado en ese caso.
         if: ${{ github.event.action != 'edited' || github.event.changes.base.ref.from != '' }}
-        uses: netexknowledge/.github/.github/workflows/pr-verify-reusable.yml@pr-verify-reusable#v1
+        uses: netexknowledge/.github/.github/workflows/pr-verify-reusable.yml@pr-verify-reusable#v3
         # nosemgrep: yaml.github-actions.security.secrets-inherit.secrets-inherit -- necesario: pr-verify-reusable resuelve en runtime el token de la GitHub App del equipo por nombre dinamico (secrets[env.APP_ID_NAME]), que no se puede declarar como secreto individual
         secrets: inherit
 
     serverless-state-pr-verify:
         name: serverless-state-pr-verify
         if: ${{ github.event.action != 'edited' || github.event.changes.base.ref.from != '' }}
-        uses: netexknowledge/.github/.github/workflows/serverless-state-pr-verify-reusable.yml@serverless-state-pr-verify-reusable#v1
+        uses: netexknowledge/.github/.github/workflows/serverless-state-pr-verify-reusable.yml@serverless-state-pr-verify-reusable#v3
         # nosemgrep: yaml.github-actions.security.secrets-inherit.secrets-inherit -- necesario: el token de GitHub App del equipo se resuelve en runtime por nombre dinamico (secrets[env.APP_ID_NAME]), no se puede declarar como secreto individual
         secrets: inherit
